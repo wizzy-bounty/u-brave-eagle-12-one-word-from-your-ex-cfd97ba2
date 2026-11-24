@@ -14,11 +14,18 @@ import os
 
 WORD = "draft"
 
+MAX_LEN = 30
+
 OUTPUT_DIR = os.environ.get("OUTPUT_DIR", "/output")
 OUTPUT_PATH = os.path.join(OUTPUT_DIR, "entry.txt")
 
 
 def main() -> None:
+    word = WORD.strip()
+    if not word or len(word) > MAX_LEN:
+        raise SystemExit("entry word must be 1-30 characters")
+    if any(ch.isspace() for ch in word):
+        raise SystemExit("entry must be exactly one word")
     os.makedirs(OUTPUT_DIR, exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8", newline="") as f:
         f.write(WORD)
